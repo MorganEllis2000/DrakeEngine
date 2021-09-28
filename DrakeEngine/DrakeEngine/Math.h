@@ -1,5 +1,5 @@
-#ifndef __Math_H__
-#define __Math_H__
+#ifndef __MATH_H__
+#define __MATH_H__
 
 #include "Matrix.h"
 #include "Vector3D.h"
@@ -8,6 +8,7 @@ namespace Math
 {
 #pragma region General Functions
 	float DegToRad(float d);
+
 	float RadToDeg(float r);
 
 	float sqrtNewton(float val, float estimate);
@@ -40,4 +41,4 @@ namespace Math
 
 };
 
-#endif // __Math_H__
+#endif // __MATH_H__

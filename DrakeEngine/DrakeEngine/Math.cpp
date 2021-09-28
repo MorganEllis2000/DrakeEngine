@@ -1,16 +1,34 @@
 #include "Math.h"
 
-const double PI = 3.1415926535897932384626433832795028841971693993751058209;
+#pragma region Mathematical Constants
+
+const double c_dPI			= 3.14159265358979323846;	 // pi
+const double c_dPI_2		= 1.57079632679489661923;	 // pi/2
+const double c_dPI_4		= 0.785398163397448309616;	 // pi/4
+const double c_d1_PI		= 0.318309886183790671538;	 // 1/pi
+const double c_d2_PI		= 0.636619772367581343076;   // 2/pi
+const double c_d2_SQRTPI	= 1.12837916709551257390;    // 2/sqrt(pi)
+const double c_dSQRT2		= 1.41421356237309504880;	 // sqrt(2)
+const double c_dSQRT1_2		= 0.707106781186547524401;	 // 1/sqrt(2)
+const double c_dE		    = 2.71828182845904523536;    // e
+const double c_dLOG2E		= 1.44269504088896340736;	 // log_2(e)
+const double c_dLog10E		= 0.434294481903251827651;	 // log_10(e)
+const double c_dLN2			= 0.693147180559945309417;	 // log_e(2)
+const double c_dLN10		= 2.30258509299404568402;	 // log_e(10)
+
+#pragma endregion
+
+
 
 namespace Math {
 
 #pragma region General Functions
 	float DegToRad(float d) {
-		return (PI / 180) * d;
+		return (c_dPI / 180) * d;
 	}
 
 	float RadToDeg(float r) {
-		return (180 / PI) * r;
+		return (180 / c_dPI) * r;
 	}
 
 	/*
@@ -51,136 +69,6 @@ namespace Math {
 		else {
 			return a;
 		}
-	}
-#pragma endregion
-
-#pragma region Vector Math
-	Vector3D add(Vector3D a, Vector3D b) {
-		Vector3D sum = Vector3D();
-		sum.x = a.x + b.x;
-		sum.y = a.y + b.y;
-		sum.z = a.z + b.z;
-
-		return sum;
-	}
-
-	Vector3D subtract(Vector3D b, Vector3D a) {
-		Vector3D diff = Vector3D();
-		diff.x = b.x - a.x;
-		diff.y = b.y - a.y;
-		diff.z = b.z = a.z;
-
-		return diff;
-	}
-
-	Vector3D multiply(Vector3D a, float c) {
-		Vector3D mul = Vector3D();
-		mul.x = a.x * c;
-		mul.y = a.y * c;
-		mul.z = a.z * c;
-
-		return mul;
-	}
-
-	Vector3D divide(Vector3D a, float c) {
-		Vector3D div = Vector3D();
-		div.x = a.x / c;
-		div.y = a.y / c;
-		div.z = a.z / c;
-
-		return div;
-	}
-
-	/*
-	The dot product is used to find the angle between two set of vector coordinates
-
-	A dot B = |A| * |B| * cos(theta)
-
-	|A|, |B| = The magnitude of the vector
-
-	The dot product can also be used to find the angle between points A and B
-
-	cos(theta) = A * B / |A| * |B|
-
-	*/
-	float dot(Vector3D a, Vector3D b) {
-		return a.x * b.x + a.y * b.y + a.z * b.z;
-	}
-
-	/*
-	|A cross B | = |A| |B| sin(theta)
-
-	A cross B = x(v1.y, v1.z, v2.y, v2.z) + y(v1.x, v1.z, v2.x, v2.z) + z(v1.x, v1.y, v2.x, v2.y)
-
-	If we calculate the cross product using matrix notation we can take the determinant and the equation becomes
-
-	v1 = v1.x * x + v1.y * y + v1.z * z
-	v2 = v2.x * x + v2.y * y + v2.z * z
-	crossProduct = v1 * v2
-
-	 ______________________________
-	|         |         |         |
-	|    x    |    y    |    z    |		 ___________________	  ___________________	   ___________________
-	| _______ | _______ |________ |		|         |         |	 |         |         |	  |         |         |
-	|         |         |         |		|   v1.y  |   v1.z  |	 |  v1.x   |   v1.z  |	  |  v1.x   |   v1.y  |
-	|  v1.x   |   v1.y  |   v1.z  | = x	|_________|_________| - y|_________|_________| + z|_________|_________|
-	|_________|_________|_________|		|         |         |	 |         |         |	  |         |         |
-	|         |         |         |		|   v2.y  |   v2.z  |	 |  v2.x   |   v2.z  |	  |  v2.x   |   v2.y  |
-	|  v2.x   |   v2.y  |   v2.z  |		|_________|_________|	 |_________|_________|	  |_________|_________|
-	|_________|_________|_________|
-
-	crossProduct = x * ( (v1.y * v2.y) - (v1.z * v2.y) ) - y * ( (v1.z * v2.x) - (v1.x * v2.z) ) + z * * ( (v1.x * v2.y) - (v1.y * v2.x) )
-
-	From this equation we can extrapolate the equations we need to perform on each axis in the crossproduct
-	x = x * (v1.y * v2.y) - (v1.z * v2.y)
-	y = -y * (v1.z * v2.x) - (v1.x * v2.z)
-	z = z * (v1.x * v2.y) - (v1.y * v2.x)
-
-	We already have a function that does this so we use this when calculating the final value
-
-	*/
-	Vector3D cross(Vector3D v1, Vector3D v2) {
-		Vector3D crossProduct = Vector3D();
-		crossProduct.x = det2x2(v1.y, v1.z, v2.y, v2.z);
-		crossProduct.y = -1 * det2x2(v1.x, v1.z, v2.x, v2.z); // As seen above we need to subtract but we cant in this instance so we multiply by negative 1 to flip the sign
-		crossProduct.z = det2x2(v1.x, v1.y, v2.x, v2.y);
-
-		return crossProduct;
-	}
-
-	/*
-	Finds the magnitude(length) of a vector
-
-	|v| = sqrt(v.x^2 + v.y^2 + v.z^2)
-	*/
-
-	float magnitude(Vector3D v) {
-		return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	}
-
-	/*
-	Normalizing vectors allow use to get a value that will represent the direction of the vector but does not include its magnetude
-
-	norm x = x / magnitude
-	*/
-
-	float normalizeX(Vector3D v, float m) {
-		return v.x / m;
-	}
-
-	float normalizeY(Vector3D v, float m) {
-		return v.y / m;
-	}
-
-	float normalizeZ(Vector3D v, float m) {
-		return v.z / m;
-	}
-
-	/*
-	distance = sqrt( (x - x2)^2 + (y - y2)^2 + (z - z2)^2) )
-	*/
-	float distance3D(Vector3D v1, Vector3D v2) {
-		return sqrt(((v1.x - v2.x) * (v1.x - v2.x)) + ((v1.y - v2.y) * (v1.y - v2.y)) + ((v1.z - v2.z) * (v1.z - v2.z)));
 	}
 #pragma endregion
 

@@ -1,5 +1,5 @@
-#ifndef __Vector3D_H__
-#define __Vector3D_H__
+#ifndef __VECTOR3D_H__
+#define __VECTOR3D_H__
 
 class Vector3D
 {
@@ -10,22 +10,53 @@ public:
 	float z;
 
 	Vector3D();
-	~Vector3D();
-
-	Vector3D(float xCoord, float yCoord, float zCoord);
+	Vector3D(float a_x, float a_y, float a_z);
 	Vector3D(const Vector3D& v);
-	Vector3D& operator= (const Vector3D& rhs); // Set two vectors equal to eachother
+	~Vector3D();
+	
+#pragma region Overload Operations
 
+	Vector3D& operator= (const Vector3D& rhs); // Set two vectors equal to eachother
 	friend Vector3D operator+(const Vector3D& lhs, const Vector3D& rhs);
 	friend Vector3D operator-(const Vector3D& lhs, const Vector3D& rhs);
 	friend Vector3D operator*(const Vector3D& lhs, const float& rhs);
 	friend Vector3D operator*(const float& lhs, const Vector3D& rhs);
 	friend Vector3D operator/(const Vector3D& lhs, const float& rhs);
 	friend Vector3D operator/(const float& lhs, const Vector3D& rhs);
+	const float operator[](const int i) const;
+
+#pragma endregion
+
+#pragma region Math Operations
+
+	const Vector3D add(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+	const Vector3D subtract(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+	const Vector3D multiply(const Vector3D& a_vector, const float& a_float) const;
+	const Vector3D divide(const Vector3D& a_vector, const float& a_float) const;
+
+#pragma endregion
+
+
+#pragma region Public Functions
+
+	const float magnitude(const Vector3D& a_vector) const;
+	const float magnitudeSq(const Vector3D& a_vector) const;
+
+	const float distance(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+	const float distanceSq(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+
+	const float dotProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+	const Vector3D crossProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const;
+
+	const Vector3D normalised(const Vector3D& a_vector) const;
+
+	const float* GetPointer() const;
+
+#pragma endregion
 
 private:
-
+	float coordinates[3];
 };
 
 
-#endif // __Vector3D_H__
+#endif // __VECTOR3D_H__

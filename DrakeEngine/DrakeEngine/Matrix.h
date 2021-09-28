@@ -1,5 +1,5 @@
-#ifndef __Matrix_H__
-#define __Matrix_H__
+#ifndef __MATRIX_H__
+#define __MATRIX_H__
 
 class Matrix
 {
@@ -22,4 +22,4 @@ private:
 	float data[3][3];
 };
 
-#endif // __Matrix_H__
+#endif // __MATRIX_H__

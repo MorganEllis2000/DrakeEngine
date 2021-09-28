@@ -1,103 +1,92 @@
-#include "Vector3D.h"
+#include "Vector2D.h"
 #include "Math.h"
 
 using namespace Math;
 
 #pragma region Constructors
 
-Vector3D::Vector3D() {
+Vector2D::Vector2D() {
 	x = 0;
 	y = 0;
-	z = 0;
 }
 
-Vector3D::Vector3D(float a_x, float a_y, float a_z) {
+Vector2D::Vector2D(float a_x, float a_y) {
 	x = a_x;
 	y = a_y;
-	z = a_z;
 }
 
-Vector3D::~Vector3D() {
+Vector2D::~Vector2D() {
 
 }
 
-Vector3D::Vector3D(const Vector3D& v) {
+Vector2D::Vector2D(const Vector2D& v) {
 	x = v.x;
 	y = v.y;
-	z = v.z;
 }
 
 #pragma endregion
 
 #pragma region Overload Operations
 
-Vector3D& Vector3D::operator=(const Vector3D& rhs) {
+Vector2D& Vector2D::operator=(const Vector2D& rhs) {
 	if (this != &rhs) {
 		this->x = rhs.x;
 		this->y = rhs.y;
-		this->z = rhs.z;
 	}
 
 	return *this;
 }
 
-Vector3D operator+(const Vector3D& lhs, const Vector3D& rhs) {
-	Vector3D sum;
+Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs) {
+	Vector2D sum;
 
 	sum.x = lhs.x + rhs.x;
 	sum.y = lhs.y + rhs.y;
-	sum.z = lhs.z + rhs.z;
 
 	return sum;
 }
 
-Vector3D operator-(const Vector3D& lhs, const Vector3D& rhs) {
-	Vector3D diff = Vector3D();
+Vector2D operator-(const Vector2D& lhs, const Vector2D& rhs) {
+	Vector2D diff = Vector2D();
 
 	diff.x = lhs.x - rhs.x;
 	diff.y = lhs.y - rhs.y;
-	diff.z = lhs.z - rhs.z;
 
 	return diff;
 }
 
-Vector3D operator*(const Vector3D& lhs, const float& rhs) {
-	Vector3D mul = Vector3D();
+Vector2D operator*(const Vector2D& lhs, const float& rhs) {
+	Vector2D mul = Vector2D();
 
 	mul.x = lhs.x * rhs;
 	mul.y = lhs.y * rhs;
-	mul.z = lhs.z * rhs;
 
 	return mul;
 }
 
-Vector3D operator*(const float& lhs, const Vector3D& rhs) {
+Vector2D operator*(const float& lhs, const Vector2D& rhs) {
 	return rhs * lhs;
 }
 
-Vector3D operator/(const Vector3D& lhs, const float& rhs) {
-	Vector3D div = Vector3D();
+Vector2D operator/(const Vector2D& lhs, const float& rhs) {
+	Vector2D div = Vector2D();
 
 	div.x = lhs.x / rhs;
 	div.y = lhs.y / rhs;
-	div.z = lhs.z / rhs;
 
 	return div;
 }
 
-Vector3D operator/(const float& lhs, const Vector3D& rhs) {
+Vector2D operator/(const float& lhs, const Vector2D& rhs) {
 	return rhs / lhs;
 }
 
-const float Vector3D::operator[](const int i) const {
+const float Vector2D::operator[](const int i) const {
 	if (i == 0) {
 		return x;
 	}
 	else if (i == 1) {
 		return y;
-	}
-	else if (i == 2) {
-		return z;
 	}
 	else {
 		return 0;
@@ -108,38 +97,34 @@ const float Vector3D::operator[](const int i) const {
 
 #pragma region Math Operations
 
-const Vector3D Vector3D::add(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	Vector3D sum = Vector3D();
+const Vector2D Vector2D::add(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	Vector2D sum = Vector2D();
 	sum.x = a_vector.x + a_vector2.x;
 	sum.y = a_vector.y + a_vector2.y;
-	sum.z = a_vector.z + a_vector2.z;
 
 	return sum;
 }
 
-const Vector3D Vector3D::subtract(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	Vector3D diff = Vector3D();
+const Vector2D Vector2D::subtract(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	Vector2D diff = Vector2D();
 	diff.x = a_vector2.x - a_vector.x;
 	diff.y = a_vector2.y - a_vector.y;
-	diff.z = a_vector2.z - a_vector.z;
 
 	return diff;
 }
 
-const Vector3D Vector3D::multiply(const Vector3D& a_vector, const float& a_float) const {
-	Vector3D mul = Vector3D();
+const Vector2D Vector2D::multiply(const Vector2D& a_vector, const float& a_float) const {
+	Vector2D mul = Vector2D();
 	mul.x = a_vector.x * a_float;
 	mul.y = a_vector.y * a_float;
-	mul.z = a_vector.z * a_float;
 
 	return mul;
 }
 
-const Vector3D Vector3D::divide(const Vector3D& a_vector, const float& a_float) const {
-	Vector3D div = Vector3D();
+const Vector2D Vector2D::divide(const Vector2D& a_vector, const float& a_float) const {
+	Vector2D div = Vector2D();
 	div.x = a_vector.x / a_float;
 	div.y = a_vector.y / a_float;
-	div.z = a_vector.z / a_float;
 
 	return div;
 }
@@ -153,23 +138,23 @@ Finds the magnitude(length) of a vector
 
 |v| = sqrt(v.x^2 + v.y^2 + v.z^2)
 */
-const float Vector3D::magnitude(const Vector3D& a_vector) const {
-	return (a_vector.x * a_vector.x + a_vector.y * a_vector.y + a_vector.z * a_vector.z);
+const float Vector2D::magnitude(const Vector2D& a_vector) const {
+	return (a_vector.x * a_vector.x + a_vector.y * a_vector.y);
 }
 
-const float Vector3D::magnitudeSq(const Vector3D& a_vector) const {
-	return sqrt(a_vector.x * a_vector.x + a_vector.y * a_vector.y + a_vector.z * a_vector.z);
+const float Vector2D::magnitudeSq(const Vector2D& a_vector) const {
+	return sqrt(a_vector.x * a_vector.x + a_vector.y * a_vector.y);
 }
 
 /*
 distance = sqrt( (x - x2)^2 + (y - y2)^2 + (z - z2)^2) )
 */
-const float Vector3D::distance(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return (((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)) + ((a_vector.z - a_vector2.z) * (a_vector.z - a_vector2.z)));
+const float Vector2D::distance(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	return (((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)));
 }
 
-const float Vector3D::distanceSq(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return sqrt(((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)) + ((a_vector.z - a_vector2.z) * (a_vector.z - a_vector2.z)));
+const float Vector2D::distanceSq(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	return sqrt(((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)));
 }
 
 /*
@@ -184,8 +169,8 @@ The dot product can also be used to find the angle between points A and B
 cos(theta) = A * B / |A| * |B|
 
 */
-const float Vector3D::dotProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return a_vector.x * a_vector2.x + a_vector.y * a_vector2.y + a_vector.z * a_vector2.z;
+const float Vector2D::dotProduct(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	return a_vector.x * a_vector2.x + a_vector.y * a_vector2.y;
 }
 
 /*
@@ -220,11 +205,10 @@ z = z * (v1.x * v2.y) - (v1.y * v2.x)
 We already have a function that does this so we use this when calculating the final value
 
 */
-const Vector3D Vector3D::crossProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	Vector3D crossProduct = Vector3D();
-	crossProduct.x = det2x2(a_vector.y, a_vector.z, a_vector2.y, a_vector2.z);
-	crossProduct.y = -1 * det2x2(a_vector.x, a_vector.z, a_vector2.x, a_vector2.z); // As seen above we need to subtract but we cant in this instance so we multiply by negative 1 to flip the sign
-	crossProduct.z = det2x2(a_vector.x, a_vector.y, a_vector2.x, a_vector2.y);
+const Vector2D Vector2D::crossProduct(const Vector2D& a_vector, const Vector2D& a_vector2) const {
+	Vector2D crossProduct = Vector2D();
+	crossProduct.x = (a_vector.x * a_vector2.y);
+	crossProduct.y = (a_vector2.x * a_vector.y);; 
 
 	return crossProduct;
 }
@@ -234,22 +218,18 @@ Normalizing vectors allow use to get a value that will represent the direction o
 
 norm x = x / magnitude
 */
-const Vector3D Vector3D::normalised(const Vector3D& a_vector) const {
-	Vector3D norm = Vector3D();
+const Vector2D Vector2D::normalised(const Vector2D& a_vector) const {
+	Vector2D norm = Vector2D();
 	float length = magnitudeSq(a_vector);
 
 	norm.x = a_vector.x / length;
 	norm.y = a_vector.y / length;
-	norm.z = a_vector.z / length;
-	
+
 	return norm;
 }
 
-const float* Vector3D::GetPointer() const {
+const float* Vector2D::GetPointer() const {
 	return coordinates;
 }
 
 #pragma endregion
-
-
-
