@@ -1,33 +1,13 @@
 #include "Math.h"
 
-#pragma region Mathematical Constants
-
-const double c_dPI			= 3.14159265358979323846;	 // pi
-const double c_dPI_2		= 1.57079632679489661923;	 // pi/2
-const double c_dPI_4		= 0.785398163397448309616;	 // pi/4
-const double c_d1_PI		= 0.318309886183790671538;	 // 1/pi
-const double c_d2_PI		= 0.636619772367581343076;   // 2/pi
-const double c_d2_SQRTPI	= 1.12837916709551257390;    // 2/sqrt(pi)
-const double c_dSQRT2		= 1.41421356237309504880;	 // sqrt(2)
-const double c_dSQRT1_2		= 0.707106781186547524401;	 // 1/sqrt(2)
-const double c_dE		    = 2.71828182845904523536;    // e
-const double c_dLOG2E		= 1.44269504088896340736;	 // log_2(e)
-const double c_dLog10E		= 0.434294481903251827651;	 // log_10(e)
-const double c_dLN2			= 0.693147180559945309417;	 // log_e(2)
-const double c_dLN10		= 2.30258509299404568402;	 // log_e(10)
-
-#pragma endregion
-
-
-
 namespace Math {
 
 #pragma region General Functions
-	float DegToRad(float d) {
+	double DegToRad(double d) {
 		return (c_dPI / 180) * d;
 	}
 
-	float RadToDeg(float r) {
+	double RadToDeg(double r) {
 		return (180 / c_dPI) * r;
 	}
 
@@ -38,19 +18,19 @@ namespace Math {
 	xn+1 = xn - (f(xn) / f'(xn))
 
 	*/
-	float sqrtNewton(float val, float estimate) {
-		float error = abs(estimate * estimate - val);
+	double sqrtNewton(double val, double estimate) {
+		double error = abs(estimate * estimate - val);
 
 		if (error <= 0.0001) {
 			return estimate;
 		}
 		else {
-			float newEstimate = (((val / estimate) + estimate) / 2);
+			double newEstimate = (((val / estimate) + estimate) / 2);
 			return sqrtNewton(val, newEstimate);
 		}
 	}
 
-	float sqrt(float x) {
+	double sqrt(double x) {
 		if (x < 0) {
 			return -1.0f;
 		}
@@ -62,7 +42,7 @@ namespace Math {
 	/*
 	Find the absolute value of our number 'a'
 	*/
-	float abs(float a) {
+	double abs(double a) {
 		if (a < 0) {
 			return (-1 * a);
 		}
@@ -70,6 +50,110 @@ namespace Math {
 			return a;
 		}
 	}
+
+	double pow(double a_base, double a_exponent) {
+		if (a_exponent == 0) {
+			return 1;
+		}
+		double result = a_base;
+		// Loop as many times as the power and just multiply itself power amount of times
+		for (int i = 1; i < a_exponent; i++) {
+			result = a_base * result;
+		}
+		return result;
+	}
+
+	double modf(double a_value, double b_value) {
+		double mod;
+		if (a_value < 0)
+			mod = -a_value;
+		else
+			mod = a_value;
+		if (b_value < 0)
+			b_value = -b_value;
+
+		while (mod >= b_value) {
+			mod = mod - b_value;
+		}
+
+		if (a_value < 0) {
+			return -mod;
+		}
+
+		return mod;
+	}
+
+	double factorial(double a_value) {
+		if (a_value == 0) {
+			return 1;
+		}
+		else {
+			return a_value * (factorial(a_value - 1));
+		}
+	}
+
+	/*
+	sin x = epsilon(n = 1, infinity) ( (-1 ^ n-1) / (2n-1)! ) * x ^ 2n-1
+	*/
+	double sin(double a_value) {
+
+		double result = a_value;
+		double coefficent = 3; // Increment this by 2 each loop
+		for (int i = 0; i < 20; i++) { // Change 10 to go out to more/less terms
+			double power = pow(a_value, coefficent);
+			double frac = factorial(coefficent);
+
+			// Switch between adding/subtracting
+			if (i % 2 == 0) { // If the index of the loop is divided by 2, the index is even, so subtract
+				result = result - (power / frac); // x - ((x^3)/(3!)) - ((x^5)/(5!))...
+			}
+			else {
+				result = result + (power / frac); // x - ((x^3)/(3!)) + ((x^5)/(5!))...
+			}
+			coefficent = coefficent + 2;
+		}
+		return result;
+	}
+
+	double sinDeg(double a_value) {
+		double rad = DegToRad(a_value);
+		double s = sin(rad);
+		return s;
+	}
+
+	double cos(double a_value) {
+		double result = 1.f;
+		double coefficent = 2; // Increment this by 2 each loop
+		for (int i = 0; i < 20; i++) { 
+			double power = pow(a_value, coefficent);
+			double frac = factorial(coefficent);
+
+			// Switch between adding/subtracting
+			if (i % 2 == 0) { // If the index of the loop is divided by 2, the index is even, so subtract
+				result = result - (power / frac); // x - ((x^3)/(3!)) - ((x^5)/(5!))...
+			}
+			else {
+				result = result + (power / frac); // x - ((x^3)/(3!)) + ((x^5)/(5!))...
+			}
+			coefficent = coefficent + 2;
+		}
+		return result;
+	}
+	double cosDeg(double a_value) {
+		double rad = DegToRad(a_value);
+		double c = cos(rad);
+		return c;
+	}
+
+	double tan(double a_value) {
+		return sin(a_value) / cos(a_value);
+	}
+	double tanDeg(double a_value) {
+		double rad = DegToRad(a_value);
+		double t = tan(rad);
+		return t;
+	}
+
 #pragma endregion
 
 #pragma region Matrix Math
@@ -170,22 +254,22 @@ namespace Math {
 
 	*/
 
-	float det2x2(float a, float b, float c, float d) {
+	double det2x2(double a, double b, double c, double d) {
 		return a * d - b * c;
 	}
 
-	float det3x3(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
-		float detA = a * ((e * i) - (f * h));
-		float detB = b * ((d * i) - (f * g));
-		float detC = c * ((d * h) - (e * g));
+	double det3x3(double a, double b, double c, double d, double e, double f, double g, double h, double i) {
+		double detA = a * ((e * i) - (f * h));
+		double detB = b * ((d * i) - (f * g));
+		double detC = c * ((d * h) - (e * g));
 		return detA - detB + detC;
 	}
 
-	float det4x4(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p) {
-		float detA = a * ((f * k * p) - (f * l * o) - (g * j * p) + (g * l * n) + (h * j * o) - (h * k * n));
-		float detB = b * ((e * k * p) - (e * l * o) - (g * i * p) + (g * l * m) + (h * i * o) - (h * k * m));
-		float detC = c * ((e * j * p) - (e * l * n) - (f * i * p) + (f * l * m) + (h * i * n) - (h * j * m));
-		float detD = d * ((e * j * o) - (e * k * n) - (f * i * o) + (f * k * m) + (g * i * n) - (g * j * m));
+	double det4x4(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k, double l, double m, double n, double o, double p) {
+		double detA = a * ((f * k * p) - (f * l * o) - (g * j * p) + (g * l * n) + (h * j * o) - (h * k * n));
+		double detB = b * ((e * k * p) - (e * l * o) - (g * i * p) + (g * l * m) + (h * i * o) - (h * k * m));
+		double detC = c * ((e * j * p) - (e * l * n) - (f * i * p) + (f * l * m) + (h * i * n) - (h * j * m));
+		double detD = d * ((e * j * o) - (e * k * n) - (f * i * o) + (f * k * m) + (g * i * n) - (g * j * m));
 		return detA - detB + detC - detD;
 	}
 #pragma endregion
