@@ -29,7 +29,6 @@ namespace Math {
 			return sqrtNewton(val, newEstimate);
 		}
 	}
-
 	double sqrt(double x) {
 		if (x < 0) {
 			return -1.0f;
@@ -37,6 +36,25 @@ namespace Math {
 		else {
 			return sqrtNewton(x, 1.0);
 		}
+	}
+	/*
+	This algorithm came from 1999s quate that uses the netwon method for square roots to estimate the root instead of doing 1/sqrt(x)
+
+	  zzaz 
+	*/
+	double quickInverseSqrt(float a_fvalue) {
+		const float x2 = a_fvalue * 0.5f; // half our initial value
+		const float threehalfs = 1.5f;
+
+		union {
+			float f;
+			unsigned int i;
+		} conv = {conv.f = a_fvalue };
+		conv.i = 0x5f3759df - (conv.i >> 1); // magic bitshifting that leads to the best estimation
+		for (int j = 0; j < 50; ++j) {
+			conv.f *= threehalfs - (x2 * conv.f * conv.f);
+		}
+		return conv.f;
 	}
 
 	/*
@@ -91,12 +109,14 @@ namespace Math {
 			return a_value * (factorial(a_value - 1));
 		}
 	}
+#pragma endregion
 
+#pragma region Trig Functions
 	/*
-	sin x = epsilon(n = 1, infinity) ( (-1 ^ n-1) / (2n-1)! ) * x ^ 2n-1
+	sin x can be calculated using the Taylor Poly series
+	sin(x) = x - x^3/3! + x^5/5! - x^7/7!
 	*/
 	double sin(double a_value) {
-
 		double result = a_value;
 		double coefficent = 3; // Increment this by 2 each loop
 		for (int i = 0; i < 20; i++) { // Change 10 to go out to more/less terms
@@ -114,17 +134,45 @@ namespace Math {
 		}
 		return result;
 	}
-
 	double sinDeg(double a_value) {
 		double rad = DegToRad(a_value);
 		double s = sin(rad);
 		return s;
 	}
+	/*
+	arcsin(x) = ( (2n)! / ( 4^n * n!^2 * 2n+1 ) ) * x^2n+1 where n = 0
+	*/
+	double inverseSin(double a_value) {
+		if (a_value == 1) {
+			return -c_dPI_2;
+		}
+		if (a_value == 0) {
+			return 0;
+		}
+		if (a_value == -1) {
+			return c_dPI_2;
+		}
+		if (a_value > 1 || a_value < -1) {
+			throw "inverseSin can only be calculated with numbers >= -1 and <= 1";
+		}
 
+		double result = a_value;
+		for (double n = 1; n < 70; n++) {
+			double power = factorial(2 * n);
+			double frac = pow(4, n) * pow(factorial(n), 2) * (2 * n + 1);
+			result = result + ((power / frac) * (pow(a_value, (2 * n + 1))));
+		}
+		return result;
+	}
+
+	/*
+	cos x can be calculated using the Taylor Poly series
+	cos(x) = x - x^2/2! + x^4/4! - x^6/6!
+	*/
 	double cos(double a_value) {
 		double result = 1.f;
 		double coefficent = 2; // Increment this by 2 each loop
-		for (int i = 0; i < 20; i++) { 
+		for (int i = 0; i < 20; i++) {
 			double power = pow(a_value, coefficent);
 			double frac = factorial(coefficent);
 
@@ -144,8 +192,29 @@ namespace Math {
 		double c = cos(rad);
 		return c;
 	}
+	/*
+	arccos(x) = PI/2 - arcsin(x)
+	*/
+	double inverseCos(double a_value) {
+		if (a_value == 1) {
+			return 0;
+		}
+		if (a_value == 0) {
+			return c_dPI_2;
+		}
+		if (a_value == -1) {
+			return c_dPI;
+		}
+		return c_dPI_2 - inverseSin(a_value);
+	}
 
+	/*
+	Tan(x) = sin(x)/ cos(x)
+	*/
 	double tan(double a_value) {
+		if (a_value > c_dPI_2 || a_value < -c_dPI_2) {
+			throw "inverseSin can only be calculated with numbers >= -PI/2 and <= PI/2";
+		}
 		return sin(a_value) / cos(a_value);
 	}
 	double tanDeg(double a_value) {
@@ -153,7 +222,81 @@ namespace Math {
 		double t = tan(rad);
 		return t;
 	}
+	/*
+	arctan(x) = ( (2n)! / (2n+1) ) * x^2n+1
+	*/
+	double inverseTan(double a_value) {
+		double result = a_value;
+		double coefficent = 3; 
+		for (int i = 2; i < 10; i++) {
+			double power = pow(a_value, coefficent);
 
+			
+			if (i % 2 == 0) { 
+				result = result - (power / coefficent); 
+			}
+			else {
+				result = result + (power / coefficent); 
+			}
+			coefficent = coefficent + 2;
+		}
+		return result;
+	}
+
+	/*
+	sec = 1 / cos(x)
+	*/
+	double sec(double a_value) {
+		return 1 / cos(a_value);
+	}
+	/*
+	arcsec(x) = PI/2 - ( (2n)! / (2^2n * n!^2 * 2n+1 * x^2n+1) )
+	*/
+	double inverseSec(double a_fvalue) {
+		double result = 0;
+		for (double n = 0; n < 70; n++) {
+			double num = factorial(2 * n);
+			double den = pow(2, (2 * n)) * pow(factorial(n), 2) * (2 * n + 1) * pow(a_fvalue, 2 * n + 1);
+
+			result = result + (num / den);
+
+		}
+		return c_dPI_2 - result;
+	}
+
+	/*
+	cot = cos(x) / sin(x)
+	*/
+	double cot(double a_value) {
+		return cos(a_value) / sin(a_value);
+	}
+	/*
+	arccot(x) = PI/2 - arctan(x)
+	*/
+	double inverseCot(double a_fvalue) {
+		return c_dPI_2 - inverseTan(a_fvalue);
+	}
+
+	/*
+	csc = 1 / sin(x)
+	*/
+	double csc(double a_value) {
+		return 1 / sin(a_value);
+	}
+	/*
+	arccsc(x) = (2n)! / (2^2n * n!^2 * 2n+1 * x^2n+1)
+	*/
+	double inverseCsc(double a_fvalue) {
+		double result = 0;
+		for (double n = 0; n < 70; n++) {
+			double num = factorial(2 * n);
+			double den = pow(2, (2 * n)) * pow(factorial(n), 2) * (2 * n + 1) * pow(a_fvalue, 2 * n + 1);
+
+			result = result + (num / den);
+
+		}
+		return result;
+	}
 #pragma endregion
 
 #pragma region Matrix Math
@@ -273,6 +416,5 @@ namespace Math {
 		return detA - detB + detC - detD;
 	}
 #pragma endregion
-
 
 }

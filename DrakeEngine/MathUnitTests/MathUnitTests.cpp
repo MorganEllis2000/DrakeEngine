@@ -18,7 +18,7 @@ namespace MathUnitTests
 			srand((unsigned int)time(nullptr));
 		}
 
-		Vector3D rCvector2() {
+		Vector3D vector3D() {
 			return Vector3D();
 		}
 
@@ -26,7 +26,7 @@ namespace MathUnitTests
 		
 		TEST_METHOD(RadToDegTest)
 		{
-			
+
 		}
 	};
 }
