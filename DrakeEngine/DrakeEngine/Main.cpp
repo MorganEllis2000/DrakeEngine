@@ -9,28 +9,15 @@ using namespace std;
 using namespace Math;
 
 int main() {
-	Matrix3x3 matrix3x3;
+	Vector2D vector2D;
+	Vector2D vec(1.5f, 1.5f);
+	Vector2D vec1(2.f, 3.f);
+	Vector2D vec2(3.f, 6.4f);
+	cout << vec2[0] << ", " << vec2[1] << endl;
 
-    Matrix3x3 mat(3,5,4,6,7,9,3,4,5);
-	Matrix4x4 mat2(5, 6, 4, 7, 9, 3, 5, 4, 7, 6, 7, 9, 1, 3, 4, 5);
-	//Matrix4x4 mat2 = Matrix4x4::Matrix4x4();
-
-	double det = mat.det3x3();
-	cout << det << endl;
-
-	cout << mat2[0] << " " << mat2[1] << " " << mat2[2] << " " << mat2[3] << endl;
-	cout << mat2[4] << " " << mat2[5] << " " << mat2[6] << " " << mat2[7] << endl;
-	cout << mat2[8] << " " << mat2[9] << " " << mat2[10] << " " << mat2[11] << endl;
-	cout << mat2[12] << " " << mat2[13] << " " << mat2[14] << " " << mat2[15] << endl;
-
-	mat2.Inverse();
-
-	cout << mat2[0] << " " << mat2[1] << " " << mat2[2] << " " << mat2[3] << endl;
-	cout << mat2[4] << " " << mat2[5] << " " << mat2[6] << " " << mat2[7] << endl;
-	cout << mat2[8] << " " << mat2[9] << " " << mat2[10] << " " << mat2[11] << endl;
-	cout << mat2[12] << " " << mat2[13] << " " << mat2[14] << " " << mat2[15] << endl;
-	
-	
+	float mag = vec2.magnitudeSq();
+	vec2 = vec2.normalise();
+	cout << vec2[0] << ", " << vec2[1] << endl;
+	cout << mag;
 	return 0;
 }
-

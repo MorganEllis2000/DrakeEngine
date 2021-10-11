@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{AED5AFC0-B499-4D2D-9623-830268DE666F}</ProjectGuid>
+    <ProjectGuid>{6D8680F6-69C7-4D97-919E-81325126D7D3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>MathUnitTests</RootNamespace>
+    <RootNamespace>MathsLibTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
   </PropertyGroup>
@@ -156,7 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MathUnitTests.cpp" />
+    <ClCompile Include="TestVector2D.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -21,7 +21,7 @@ namespace Math {
 	double sqrtNewton(double val, double estimate) {
 		double error = abs(estimate * estimate - val);
 
-		if (error <= 0.0001) {
+		if (error <= 0.00000001) {
 			return estimate;
 		}
 		else {
