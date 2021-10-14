@@ -6,15 +6,15 @@ using namespace Math;
 #pragma region Constructors
 
 Vector3D::Vector3D() {
-	x = 0;
-	y = 0;
-	z = 0;
+	this->m_coordinates[0] = 0;
+	this->m_coordinates[1] = 0;
+	this->m_coordinates[2] = 0;
 }
 
 Vector3D::Vector3D(float a_x, float a_y, float a_z) {
-	x = a_x;
-	y = a_y;
-	z = a_z;
+	this->m_coordinates[0] = a_x;
+	this->m_coordinates[1] = a_y;
+	this->m_coordinates[2] = a_z;
 }
 
 Vector3D::~Vector3D() {
@@ -22,9 +22,9 @@ Vector3D::~Vector3D() {
 }
 
 Vector3D::Vector3D(const Vector3D& v) {
-	x = v.x;
-	y = v.y;
-	z = v.z;
+	this->m_coordinates[0] = v.m_coordinates[0];
+	this->m_coordinates[1] = v.m_coordinates[1];
+	this->m_coordinates[2] = v.m_coordinates[2];
 }
 
 #pragma endregion
@@ -33,74 +33,149 @@ Vector3D::Vector3D(const Vector3D& v) {
 
 Vector3D& Vector3D::operator=(const Vector3D& rhs) {
 	if (this != &rhs) {
-		this->x = rhs.x;
-		this->y = rhs.y;
-		this->z = rhs.z;
+		this->m_coordinates[0] = rhs.m_coordinates[0];
+		this->m_coordinates[1] = rhs.m_coordinates[1];
+		this->m_coordinates[2] = rhs.m_coordinates[2];
 	}
 
 	return *this;
 }
 
-Vector3D operator+(const Vector3D& lhs, const Vector3D& rhs) {
+const Vector3D Vector3D::operator+(const Vector3D& rhs) const {
 	Vector3D sum;
 
-	sum.x = lhs.x + rhs.x;
-	sum.y = lhs.y + rhs.y;
-	sum.z = lhs.z + rhs.z;
+	sum.m_coordinates[0] = this->m_coordinates[0] + rhs.m_coordinates[0];
+	sum.m_coordinates[1] = this->m_coordinates[1] + rhs.m_coordinates[1];
+	sum.m_coordinates[2] = this->m_coordinates[2] + rhs.m_coordinates[2];
 
 	return sum;
 }
+Vector3D& Vector3D::operator+=(const Vector3D& rhs) {
+	this->m_coordinates[0] += rhs.m_coordinates[0];
+	this->m_coordinates[1] += rhs.m_coordinates[1];
+	this->m_coordinates[2] += rhs.m_coordinates[2];
 
-Vector3D operator-(const Vector3D& lhs, const Vector3D& rhs) {
+	return *this;
+}
+
+const Vector3D Vector3D::operator-(const Vector3D& rhs) const {
 	Vector3D diff = Vector3D();
 
-	diff.x = lhs.x - rhs.x;
-	diff.y = lhs.y - rhs.y;
-	diff.z = lhs.z - rhs.z;
+	diff.m_coordinates[0] = this->m_coordinates[0] + rhs.m_coordinates[0];
+	diff.m_coordinates[1] = this->m_coordinates[1] + rhs.m_coordinates[1];
+	diff.m_coordinates[2] = this->m_coordinates[2] + rhs.m_coordinates[2];
 
 	return diff;
 }
+Vector3D& Vector3D::operator-=(const Vector3D& rhs) {
+	this->m_coordinates[0] -= rhs.m_coordinates[0];
+	this->m_coordinates[1] -= rhs.m_coordinates[1];
+	this->m_coordinates[2] -= rhs.m_coordinates[2];
 
-Vector3D operator*(const Vector3D& lhs, const float& rhs) {
+	return *this;
+}
+
+const Vector3D Vector3D::operator*(const float& rhs) const {
 	Vector3D mul = Vector3D();
 
-	mul.x = lhs.x * rhs;
-	mul.y = lhs.y * rhs;
-	mul.z = lhs.z * rhs;
+	mul.m_coordinates[0] = this->m_coordinates[0] * rhs;
+	mul.m_coordinates[1] = this->m_coordinates[1] * rhs;
+	mul.m_coordinates[2] = this->m_coordinates[2] * rhs;
 
 	return mul;
 }
+Vector3D& Vector3D::operator*=(const float& rhs) {
+	this->m_coordinates[0] *= rhs;
+	this->m_coordinates[1] *= rhs;
+	this->m_coordinates[2] *= rhs;
 
-Vector3D operator*(const float& lhs, const Vector3D& rhs) {
-	return rhs * lhs;
+	return *this;
 }
 
-Vector3D operator/(const Vector3D& lhs, const float& rhs) {
+const Vector3D Vector3D::operator*(const Vector3D& rhs) const {
+	Vector3D mul = Vector3D();
+
+	mul.m_coordinates[0] = this->m_coordinates[0] * rhs.m_coordinates[0];
+	mul.m_coordinates[1] = this->m_coordinates[1] * rhs.m_coordinates[1];
+	mul.m_coordinates[2] = this->m_coordinates[2] * rhs.m_coordinates[2];
+
+	return mul;
+}
+Vector3D& Vector3D::operator*=(const Vector3D& rhs) {
+	this->m_coordinates[0] *= rhs.m_coordinates[0];
+	this->m_coordinates[1] *= rhs.m_coordinates[1];
+	this->m_coordinates[2] *= rhs.m_coordinates[2];
+
+	return *this;
+}
+
+const Vector3D Vector3D::operator/(const float& rhs) const {
 	Vector3D div = Vector3D();
 
-	div.x = lhs.x / rhs;
-	div.y = lhs.y / rhs;
-	div.z = lhs.z / rhs;
+	div.m_coordinates[0] = this->m_coordinates[0] / rhs;
+	div.m_coordinates[1] = this->m_coordinates[1] / rhs;
+	div.m_coordinates[2] = this->m_coordinates[2] / rhs;
 
 	return div;
 }
+Vector3D& Vector3D::operator/=(const float& rhs) {
+	this->m_coordinates[0] /= rhs;
+	this->m_coordinates[1] /= rhs;
+	this->m_coordinates[2] /= rhs;
 
-Vector3D operator/(const float& lhs, const Vector3D& rhs) {
-	return rhs / lhs;
+	return *this;
+}
+
+const Vector3D Vector3D::operator/(const Vector3D& rhs) const {
+	Vector3D div = Vector3D();
+
+	div.m_coordinates[0] = this->m_coordinates[0] / rhs.m_coordinates[0];
+	div.m_coordinates[1] = this->m_coordinates[1] / rhs.m_coordinates[1];
+	div.m_coordinates[2] = this->m_coordinates[2] / rhs.m_coordinates[2];
+
+	return div;
+}
+Vector3D& Vector3D::operator/=(const Vector3D& rhs) {
+	this->m_coordinates[0] /= rhs.m_coordinates[0];
+	this->m_coordinates[1] /= rhs.m_coordinates[1];
+	this->m_coordinates[2] /= rhs.m_coordinates[2];
+
+	return *this;
 }
 
 const float Vector3D::operator[](const int i) const {
 	if (i == 0) {
-		return x;
+		return m_coordinates[0];
 	}
 	else if (i == 1) {
-		return y;
+		return m_coordinates[1];
 	}
 	else if (i == 2) {
-		return z;
+		return m_coordinates[2];
 	}
 	else {
 		return 0;
+	}
+}
+
+const bool Vector3D::operator==(const Vector3D& rhs) const {
+	for (int i = 0; i < 3; ++i) {
+		if (this->m_coordinates[i] == rhs.m_coordinates[i]) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+const bool Vector3D::operator!=(const Vector3D& rhs) const {
+	for (int i = 0; i < 3; ++i) {
+		if (this->m_coordinates[i] != rhs.m_coordinates[i]) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 
@@ -110,36 +185,68 @@ const float Vector3D::operator[](const int i) const {
 
 const Vector3D Vector3D::add(const Vector3D& a_vector, const Vector3D& a_vector2) const {
 	Vector3D sum = Vector3D();
-	sum.x = a_vector.x + a_vector2.x;
-	sum.y = a_vector.y + a_vector2.y;
-	sum.z = a_vector.z + a_vector2.z;
+	sum.m_coordinates[0] = a_vector.m_coordinates[0] + a_vector2.m_coordinates[0];
+	sum.m_coordinates[1] = a_vector.m_coordinates[1] + a_vector2.m_coordinates[1];
+	sum.m_coordinates[2] = a_vector.m_coordinates[2] + a_vector2.m_coordinates[2];
 
 	return sum;
+}
+const Vector3D Vector3D::add(const Vector3D& a_vector, const float& a_float) const {
+	Vector3D add = Vector3D();
+	add.m_coordinates[0] = a_vector.m_coordinates[0] + a_float;
+	add.m_coordinates[1] = a_vector.m_coordinates[1] + a_float;
+	add.m_coordinates[2] = a_vector.m_coordinates[2] + a_float;
+
+	return add;
 }
 
 const Vector3D Vector3D::subtract(const Vector3D& a_vector, const Vector3D& a_vector2) const {
 	Vector3D diff = Vector3D();
-	diff.x = a_vector2.x - a_vector.x;
-	diff.y = a_vector2.y - a_vector.y;
-	diff.z = a_vector2.z - a_vector.z;
+	diff.m_coordinates[0] = a_vector.m_coordinates[0] - a_vector2.m_coordinates[0];
+	diff.m_coordinates[1] = a_vector.m_coordinates[1] - a_vector2.m_coordinates[1];
+	diff.m_coordinates[2] = a_vector.m_coordinates[2] - a_vector2.m_coordinates[2];
+
+	return diff;
+}
+const Vector3D Vector3D::subtract(const Vector3D& a_vector, const float& a_float) const {
+	Vector3D diff = Vector3D();
+	diff.m_coordinates[0] = a_vector.m_coordinates[0] - a_float;
+	diff.m_coordinates[1] = a_vector.m_coordinates[1] - a_float;
+	diff.m_coordinates[2] = a_vector.m_coordinates[2] - a_float;
 
 	return diff;
 }
 
+const Vector3D Vector3D::multiply(const Vector3D& a_vector, const Vector3D& a_vector2) const {
+	Vector3D mul = Vector3D();
+	mul.m_coordinates[0] = a_vector.m_coordinates[0] * a_vector2.m_coordinates[0];
+	mul.m_coordinates[1] = a_vector.m_coordinates[1] * a_vector2.m_coordinates[1];
+	mul.m_coordinates[2] = a_vector.m_coordinates[2] * a_vector2.m_coordinates[2];
+
+	return mul;
+}
 const Vector3D Vector3D::multiply(const Vector3D& a_vector, const float& a_float) const {
 	Vector3D mul = Vector3D();
-	mul.x = a_vector.x * a_float;
-	mul.y = a_vector.y * a_float;
-	mul.z = a_vector.z * a_float;
+	mul.m_coordinates[0] = a_vector.m_coordinates[0] * a_float;
+	mul.m_coordinates[1] = a_vector.m_coordinates[1] * a_float;
+	mul.m_coordinates[2] = a_vector.m_coordinates[2] * a_float;
 
 	return mul;
 }
 
+const Vector3D Vector3D::divide(const Vector3D& a_vector, const Vector3D& a_vector2) const {
+	Vector3D div = Vector3D();
+	div.m_coordinates[0] = a_vector.m_coordinates[0] / a_vector2.m_coordinates[0];
+	div.m_coordinates[1] = a_vector.m_coordinates[1] / a_vector2.m_coordinates[1];
+	div.m_coordinates[2] = a_vector.m_coordinates[2] / a_vector2.m_coordinates[2];
+
+	return div;
+}
 const Vector3D Vector3D::divide(const Vector3D& a_vector, const float& a_float) const {
 	Vector3D div = Vector3D();
-	div.x = a_vector.x / a_float;
-	div.y = a_vector.y / a_float;
-	div.z = a_vector.z / a_float;
+	div.m_coordinates[0] = a_vector.m_coordinates[0] / a_float;
+	div.m_coordinates[1] = a_vector.m_coordinates[1] / a_float;
+	div.m_coordinates[2] = a_vector.m_coordinates[2] / a_float;
 
 	return div;
 }
@@ -153,23 +260,27 @@ Finds the magnitude(length) of a vector
 
 |v| = sqrt(v.x^2 + v.y^2 + v.z^2)
 */
-const float Vector3D::magnitude(const Vector3D& a_vector) const {
-	return (a_vector.x * a_vector.x + a_vector.y * a_vector.y + a_vector.z * a_vector.z);
+const float Vector3D::magnitude() const {
+	return (this->m_coordinates[0] * this->m_coordinates[0] +
+			this->m_coordinates[1] * this->m_coordinates[1] +
+			this->m_coordinates[2] * this->m_coordinates[2]);
 }
 
-const float Vector3D::magnitudeSq(const Vector3D& a_vector) const {
-	return sqrt(a_vector.x * a_vector.x + a_vector.y * a_vector.y + a_vector.z * a_vector.z);
+const float Vector3D::magnitudeSq() const {
+	return sqrt(this->magnitude());
 }
 
 /*
 distance = sqrt( (x - x2)^2 + (y - y2)^2 + (z - z2)^2) )
 */
-const float Vector3D::distance(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return (((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)) + ((a_vector.z - a_vector2.z) * (a_vector.z - a_vector2.z)));
+const float Vector3D::distance(const Vector3D& a_vector) const {
+	return (((a_vector.m_coordinates[0] - this->m_coordinates[0]) * (a_vector.m_coordinates[0] - this->m_coordinates[0])) +
+			((a_vector.m_coordinates[1] - this->m_coordinates[1]) * (a_vector.m_coordinates[1] - this->m_coordinates[1])) +
+			((a_vector.m_coordinates[2] - this->m_coordinates[2]) * (a_vector.m_coordinates[2] - this->m_coordinates[2])));
 }
 
-const float Vector3D::distanceSq(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return sqrt(((a_vector.x - a_vector2.x) * (a_vector.x - a_vector2.x)) + ((a_vector.y - a_vector2.y) * (a_vector.y - a_vector2.y)) + ((a_vector.z - a_vector2.z) * (a_vector.z - a_vector2.z)));
+const float Vector3D::distanceSq(const Vector3D& a_vector) const {
+	return sqrt(this->distance(a_vector));
 }
 
 /*
@@ -185,7 +296,9 @@ cos(theta) = A * B / |A| * |B|
 
 */
 const float Vector3D::dotProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const {
-	return a_vector.x * a_vector2.x + a_vector.y * a_vector2.y + a_vector.z * a_vector2.z;
+	return  a_vector.m_coordinates[0] * a_vector2.m_coordinates[0] +
+			a_vector.m_coordinates[1] * a_vector2.m_coordinates[1] +
+			a_vector.m_coordinates[2] * a_vector2.m_coordinates[2];
 }
 
 /*
@@ -222,9 +335,9 @@ We already have a function that does this so we use this when calculating the fi
 */
 const Vector3D Vector3D::crossProduct(const Vector3D& a_vector, const Vector3D& a_vector2) const {
 	Vector3D crossProduct = Vector3D();
-	crossProduct.x = det2x2(a_vector.y, a_vector.z, a_vector2.y, a_vector2.z);
-	crossProduct.y = -1 * det2x2(a_vector.x, a_vector.z, a_vector2.x, a_vector2.z); // As seen above we need to subtract but we cant in this instance so we multiply by negative 1 to flip the sign
-	crossProduct.z = det2x2(a_vector.x, a_vector.y, a_vector2.x, a_vector2.y);
+	crossProduct.m_coordinates[0] = det2x2(a_vector.m_coordinates[1], a_vector.m_coordinates[2], a_vector2.m_coordinates[1], a_vector2.m_coordinates[2]);
+	crossProduct.m_coordinates[1] = -1 * det2x2(a_vector.m_coordinates[0], a_vector.m_coordinates[2], a_vector2.m_coordinates[0], a_vector2.m_coordinates[2]); // As seen above we need to subtract but we cant in this instance so we multiply by negative 1 to flip the sign
+	crossProduct.m_coordinates[2] = det2x2(a_vector.m_coordinates[0], a_vector.m_coordinates[1], a_vector2.m_coordinates[0], a_vector2.m_coordinates[1]);
 
 	return crossProduct;
 }
@@ -234,19 +347,19 @@ Normalizing vectors allow use to get a value that will represent the direction o
 
 norm x = x / magnitude
 */
-const Vector3D Vector3D::normalised(const Vector3D& a_vector) const {
+const Vector3D Vector3D::normalise() const {
 	Vector3D norm = Vector3D();
-	float length = magnitudeSq(a_vector);
+	float length = this->magnitudeSq();
 
-	norm.x = a_vector.x / length;
-	norm.y = a_vector.y / length;
-	norm.z = a_vector.z / length;
+	norm.m_coordinates[0] = this->m_coordinates[0] / length;
+	norm.m_coordinates[1] = this->m_coordinates[1] / length;
+	norm.m_coordinates[2] = this->m_coordinates[2] / length;
 	
 	return norm;
 }
 
 const float* Vector3D::GetPointer() const {
-	return coordinates;
+	return m_coordinates;
 }
 
 #pragma endregion

@@ -1,23 +1,20 @@
 #include <iostream>
-#include "Math.h"
-#include "Vector3D.h"
-#include "Vector2D.h"
-#include "Matrix3x3.h"
-#include "Matrix4x4.h"
+#include "MathLib.h"
 
 using namespace std;
 using namespace Math;
 
 int main() {
-	Vector2D vector2D;
-	Vector2D vec(1.5f, 1.5f);
-	Vector2D vec1(2.f, 3.f);
-	Vector2D vec2(3.f, 6.4f);
-	cout << vec2[0] << ", " << vec2[1] << endl;
+	Vector3D vec0 = Vector3D();
+	Vector3D vec(1.7f, 1.7f, 2.3f);
+	Vector3D vec1(2.f, 3.f, 0.6);
+	Vector3D vec2(vec1);
 
-	float mag = vec2.magnitudeSq();
-	vec2 = vec2.normalise();
-	cout << vec2[0] << ", " << vec2[1] << endl;
-	cout << mag;
+	cout << vec0[0] << ", " << vec0[1] << ", " << vec0[2] << endl;
+
+	//cout << mag << endl;
+	
+	cout << vec0[0] << ", " << vec0[1] << ", " << vec0[2] << endl;
+
 	return 0;
 }

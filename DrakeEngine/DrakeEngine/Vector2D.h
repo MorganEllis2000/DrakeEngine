@@ -15,6 +15,7 @@ public:
 #pragma region Overload Operations
 
 	Vector2D& operator=(const Vector2D& rhs); // Set two vectors equal to eachother
+
 	const Vector2D operator+(const Vector2D& rhs) const;
 	Vector2D& operator+=(const Vector2D& rhs);
 

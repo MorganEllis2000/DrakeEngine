@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../DrakeEngine/Vector2D.h"
-#include "../DrakeEngine/Vector2D.cpp"
-
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -19,8 +16,8 @@ namespace MathsLibTest
 
 		Vector2D rVector2D() {
 			return Vector2D(
-				(float)((rand() % 10000) + 1000) - 5000,
-				(float)((rand() % 10000) + 1000) - 5000
+				(double)((rand() % 10000) + 1000) - 5000,
+				(double)((rand() % 10000) + 1000) - 5000
 			);
 		}
 
@@ -285,9 +282,9 @@ namespace MathsLibTest
 			Assert::AreEqual(normalised[1], test[1]);
 
 			float expectedMag = 1.0f;
-
-			Assert::IsTrue(abs(expectedMag - test.magnitude()) < FLT_EPSILON);
-			Assert::IsTrue(abs(expectedMag - normalised.magnitude()) < FLT_EPSILON);
+			
+			Assert::IsTrue(abs(expectedMag - test.magnitudeSq()) < FLT_EPSILON);
+			Assert::IsTrue(abs(expectedMag - normalised.magnitudeSq()) < FLT_EPSILON);
 		}
 	};
 }

@@ -53,35 +53,9 @@ void Matrix4x4::SetRow(const int a_irowNumber, const Vector3D& a_rowValues) {
 
 #pragma region Rotations
 
-const bool Matrix4x4::isRotationMatrix(const Matrix4x4 a_matrix) const {
-	Matrix4x4 mat = a_matrix;
-	double epsilon = 0.01f; // margin to allow for rounding errors
-	if (abs((a_matrix[0] * a_matrix[1] + a_matrix[1] * a_matrix[4] + a_matrix[2] * a_matrix[5])) > epsilon) {
-		return false;
-	}
-	if (abs((a_matrix[0] * a_matrix[6] + a_matrix[1] * a_matrix[7] + a_matrix[2] * a_matrix[8])) > epsilon) {
-		return false;
-	}
-	if (abs((a_matrix[3] * a_matrix[6] + a_matrix[4] * a_matrix[7] + a_matrix[5] * a_matrix[8])) > epsilon) {
-		return false;
-	}
-	if (abs((a_matrix[0] * a_matrix[0] + a_matrix[1] * a_matrix[1] + a_matrix[2] * a_matrix[2])) > epsilon) {
-		return false;
-	}
-	if (abs((a_matrix[3] * a_matrix[3] + a_matrix[4] * a_matrix[4] + a_matrix[5] * a_matrix[5])) > epsilon) {
-		return false;
-	}
-	if (abs((a_matrix[6] * a_matrix[6] + a_matrix[7] * a_matrix[7] + a_matrix[8] * a_matrix[8])) > epsilon) {
-		return false;
-	}
-	double det = mat.det4x4();
-
-	return abs(det - 1) < epsilon;
-}
-
 const Matrix4x4 Matrix4x4::RotateX(double a_ftheta) {
-	double c = cos(a_ftheta);
-	double s = sin(a_ftheta);
+	double c = Math::cos(a_ftheta);
+	double s = Math::sin(a_ftheta);
 	this->m_matrixValues[0] = 1;		this->m_matrixValues[1] = 0;			this->m_matrixValues[2] = 0;
 	this->m_matrixValues[3] = 0;		this->m_matrixValues[4] = c;			this->m_matrixValues[5] = -s;
 	this->m_matrixValues[6] = 0;		this->m_matrixValues[7] = s;			this->m_matrixValues[8] = c;
@@ -90,8 +64,8 @@ const Matrix4x4 Matrix4x4::RotateX(double a_ftheta) {
 }
 
 const Matrix4x4 Matrix4x4::RotateY(double a_ftheta) {
-	double c = cos(a_ftheta);
-	double s = sin(a_ftheta);
+	double c = Math::cos(a_ftheta);
+	double s = Math::sin(a_ftheta);
 	this->m_matrixValues[0] = c;		this->m_matrixValues[1] = 0;			this->m_matrixValues[2] = s;
 	this->m_matrixValues[3] = 0;		this->m_matrixValues[4] = 1;			this->m_matrixValues[5] = 0;
 	this->m_matrixValues[6] = -s;		this->m_matrixValues[7] = 0;			this->m_matrixValues[8] = c;
@@ -100,8 +74,8 @@ const Matrix4x4 Matrix4x4::RotateY(double a_ftheta) {
 }
 
 const Matrix4x4 Matrix4x4::RotateZ(double a_ftheta) {
-	double c = cos(a_ftheta);
-	double s = sin(a_ftheta);
+	double c = Math::cos(a_ftheta);
+	double s = Math::sin(a_ftheta);
 	this->m_matrixValues[0] = c;		this->m_matrixValues[1] = -s;			this->m_matrixValues[2] = 0;
 	this->m_matrixValues[3] = s;		this->m_matrixValues[4] = c;			this->m_matrixValues[5] = 0;
 	this->m_matrixValues[6] = 0;		this->m_matrixValues[7] = 0;			this->m_matrixValues[8] = 1;
