@@ -8,11 +8,13 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-#include "../DrakeEngine/Math.h"
-#include "../DrakeEngine/Vector2D.h"
-#include "../DrakeEngine/Vector3D.h"
-#include "../DrakeEngine/Matrix3x3.h"
-#include "../DrakeEngine/Matrix4x4.h"
+#include "pch.h"
+#include "../MathsLibrary/Header/Math.h"
+#include "../MathsLibrary/Header/Vector2D.h"
+#include "../MathsLibrary/Header/Vector3D.h"
+#include "../MathsLibrary/Header/Vector4D.h"
+#include "../MathsLibrary/Header/Matrix3x3.h"
+#include "../MathsLibrary/Header/Matrix4x4.h"
 
 
 #endif //PCH_H
