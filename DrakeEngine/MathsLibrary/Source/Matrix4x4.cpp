@@ -327,6 +327,8 @@ Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& a_rhs)
 	return *this;
 }
 
+
+
 const Matrix4x4 Matrix4x4::operator*(const Matrix4x4& a_rhs) const {
 	Matrix4x4 mul;
 

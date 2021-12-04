@@ -1,6 +1,8 @@
 #ifndef __VECTOR4D_H__
 #define __VECTOR4D_H__
 
+#include "Matrix4x4.h"
+
 class Vector4D
 {
 public:
@@ -25,6 +27,8 @@ public:
 
 	const Vector4D operator*(const Vector4D& rhs) const;
 	Vector4D& operator*=(const Vector4D& rhs);
+
+	const Vector4D operator*(const Matrix4x4& rhs) const;
 
 	const Vector4D operator/(const float& rhs) const;
 	Vector4D& operator/=(const float& rhs);

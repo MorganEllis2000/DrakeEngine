@@ -115,6 +115,17 @@ Vector4D& Vector4D::operator*=(const Vector4D& rhs) {
 	return *this;
 }
 
+const Vector4D Vector4D::operator*(const Matrix4x4& rhs) const {
+	Vector4D mul;
+
+	mul.m_coordinates[0] = (  (rhs[0]  * this->m_coordinates[0]) + (rhs[1]  * this->m_coordinates[1]) + (rhs[2]  * this->m_coordinates[2])  + (rhs[3] * this->m_coordinates[3])  );
+	mul.m_coordinates[1] = (  (rhs[4]  * this->m_coordinates[0]) + (rhs[5]  * this->m_coordinates[1]) + (rhs[6]  * this->m_coordinates[2])  + (rhs[7] * this->m_coordinates[3])  );
+	mul.m_coordinates[2] = (  (rhs[8]  * this->m_coordinates[0]) + (rhs[9]  * this->m_coordinates[1]) + (rhs[10] * this->m_coordinates[2]) + (rhs[11] * this->m_coordinates[3]) );
+	mul.m_coordinates[3] = (  (rhs[12] * this->m_coordinates[0]) + (rhs[13] * this->m_coordinates[1]) + (rhs[14] * this->m_coordinates[2]) + (rhs[15] * this->m_coordinates[3]) );
+
+	return mul;
+}
+
 const Vector4D Vector4D::operator/(const float& rhs) const {
 	Vector4D mul = Vector4D();
 
@@ -301,6 +312,23 @@ const float Vector4D::dotProduct(const Vector4D& a_vector, const Vector4D& a_vec
 			a_vector.m_coordinates[2] * a_vector2.m_coordinates[2] +
 			a_vector.m_coordinates[3] * a_vector2.m_coordinates[3];
 }
+
+const Vector4D Vector4D::normalise() const {
+	Vector4D norm = Vector4D();
+	float length = this->magnitudeSq();
+
+	norm.m_coordinates[0] = this->m_coordinates[0] / length;
+	norm.m_coordinates[1] = this->m_coordinates[1] / length;
+	norm.m_coordinates[2] = this->m_coordinates[2] / length;
+	norm.m_coordinates[3] = this->m_coordinates[3] / length;
+
+	return norm;
+}
+
+const float* Vector4D::GetPointer() const {
+	return m_coordinates;
+}
+
 #pragma endregion
 
 
