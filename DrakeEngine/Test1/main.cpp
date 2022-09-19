@@ -5,4 +5,5 @@ using namespace std;
 using namespace Math;
 int main() {
 	
+
 }
