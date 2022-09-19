@@ -19,6 +19,10 @@ namespace Math
 	double modf(double a_value, double b_value);
 
 	double factorial(double a_value);
+
+	int floor(double a_value);
+	int ceil(double a_value);
+	double round(double a_value);
 #pragma endregion
 
 #pragma region Trig Functions

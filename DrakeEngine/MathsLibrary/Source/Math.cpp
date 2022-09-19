@@ -109,6 +109,20 @@ namespace Math {
 			return a_value * (factorial(a_value - 1));
 		}
 	}
+
+	int floor(double a_value) {
+		return a_value - (modf(a_value, 1) >= 0 ? modf(a_value, 1): (1 + modf(a_value, 1)));
+	}
+
+	int ceil(double a_value) {
+		return -floor(-a_value);
+	}
+
+	double round(double a_value) {
+		//return floor(a_value + 0.5f);
+		return floor(a_value) + (a_value > 0 && modf(a_value, 1) >= 0.5f) + (a_value < 0 && modf((1 + modf(a_value, 1)), 1) >= 0.5f);
+	}
+
 #pragma endregion
 
 #pragma region Trig Functions
